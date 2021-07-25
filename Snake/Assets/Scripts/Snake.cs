@@ -8,19 +8,35 @@ public class Snake : MonoBehaviour
     public enum DIRECTION { LEFT, DOWN, RIGHT, UP };
     public DIRECTION direction;
     Rigidbody2D rb;
-    List<Snake> tail = new List<Snake>();
+    [SerializeField]
+    bool isPlayer;
 
     void Start()
     {
         float refreshRate = 0.09f;
-        direction = DIRECTION.UP;
+        direction = isPlayer ? DIRECTION.UP : NumToDirection(Random.Range(0,4));
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         InvokeRepeating("Tick", refreshRate, refreshRate);
     }
 
     private void FixedUpdate()
     {
-        PlayerInput();
+        if (isPlayer)
+        {
+            PlayerInput();
+        }
+    }
+
+    public DIRECTION NumToDirection(int number)
+    {
+        switch (number)
+        {
+            case 0: return DIRECTION.DOWN;
+            case 1: return DIRECTION.LEFT;
+            case 2: return DIRECTION.RIGHT;
+            case 3: return DIRECTION.UP;
+            default: return DIRECTION.DOWN;
+        }
     }
 
     public void Tick()
@@ -54,11 +70,33 @@ public class Snake : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-       if(col.gameObject.tag == "Wall")
+        if (col.gameObject.tag == "Wall")
         {
-            Debug.Log("DEAD");
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            RestartScene();
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!isPlayer && collision.CompareTag("Player"))
+        {
+            Destroy(collision.gameObject);
+            RestartScene();
+        }
+    }
+
+    void RestartScene()
+    {
+        Debug.Log("DEAD");
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 }
