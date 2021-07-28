@@ -526,6 +526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1424260267}
+  - component: {fileID: 1424260268}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -550,6 +551,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1424260268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424260266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1d7675d352fe8418041a0756db7bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBot: {fileID: 5754189261598683791, guid: b56a29a6719e9b4459eeab31867dd516,
+    type: 3}
 --- !u!4 &1469146716 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1798134387132598143, guid: 79643a3003da97148b844e9b54777316,

@@ -10,11 +10,12 @@ public class Snake : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField]
     bool isPlayer;
+    bool isDirty = false;
 
     void Start()
     {
         float refreshRate = 0.09f;
-        direction = isPlayer ? DIRECTION.UP : NumToDirection(Random.Range(0,4));
+        direction = isPlayer ? DIRECTION.UP : direction;
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         InvokeRepeating("Tick", refreshRate, refreshRate);
     }
@@ -24,18 +25,6 @@ public class Snake : MonoBehaviour
         if (isPlayer)
         {
             PlayerInput();
-        }
-    }
-
-    public DIRECTION NumToDirection(int number)
-    {
-        switch (number)
-        {
-            case 0: return DIRECTION.DOWN;
-            case 1: return DIRECTION.LEFT;
-            case 2: return DIRECTION.RIGHT;
-            case 3: return DIRECTION.UP;
-            default: return DIRECTION.DOWN;
         }
     }
 
@@ -80,8 +69,17 @@ public class Snake : MonoBehaviour
     {
         if (collision.CompareTag("Wall"))
         {
-            Destroy(this.gameObject);
+            if (isPlayer)
+            {
+                Destroy(this.gameObject);
+            }
+            else if (isDirty)
+            {
+                Destroy(this.gameObject);
+            }
+            isDirty = true;
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -95,7 +93,6 @@ public class Snake : MonoBehaviour
 
     void RestartScene()
     {
-        Debug.Log("DEAD");
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
