@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class Engine : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class Engine : MonoBehaviour
     {
         GameObject botClone = Instantiate(enemyBot);
         Snake enemyScript = botClone.GetComponent<Snake>();
-        int wallNumber = Random.Range(0, 3);
+        int wallNumber = Random.Range(0, 4);
         enemyScript.direction = AssignDirection(enemyScript, wallNumber);
         enemyScript.transform.position = AssignPosition(wallNumber);
     }
@@ -57,6 +58,13 @@ public class Engine : MonoBehaviour
     {
         var oldPosition = wallList[number].transform.position;
         Vector3 position = new Vector3(oldPosition.x, oldPosition.y, 0);
+        Debug.Log(position);
         return position;
+    }
+
+    void RestartScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 }

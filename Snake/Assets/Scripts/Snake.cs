@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour
 {
@@ -61,7 +60,7 @@ public class Snake : MonoBehaviour
     {
         if (col.gameObject.tag == "Wall")
         {
-            RestartScene();
+           // Destroy(this.gameObject);
         }
     }
 
@@ -69,31 +68,20 @@ public class Snake : MonoBehaviour
     {
         if (collision.CompareTag("Wall"))
         {
-            if (isPlayer)
-            {
-                Destroy(this.gameObject);
-            }
-            else if (isDirty)
+            if (isDirty)
             {
                 Destroy(this.gameObject);
             }
             isDirty = true;
         }
-
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isPlayer && collision.CompareTag("Player"))
         {
             Destroy(collision.gameObject);
-            RestartScene();
         }
-    }
-
-    void RestartScene()
-    {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
     }
 }
